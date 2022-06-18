@@ -2,11 +2,18 @@
 from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 # from flask_restful import reqparse
+import os
 
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tobi:1234@localhost:5432/movies'
+uri = os.getenv("DATABASE_URL")
+if uri and uri.startswith("postgres://"):
+    uri= uri.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tobi:1234@localhost:5432/movies'
+
 db = SQLAlchemy(app)
 
 # create table
