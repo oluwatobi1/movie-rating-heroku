@@ -14,6 +14,9 @@ if uri and uri.startswith("postgres://"):
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://tobi:1234@localhost:5432/movies'
 
+
+
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] =  False
 db = SQLAlchemy(app)
 
 # create table
@@ -32,7 +35,7 @@ class Movie(db.Model):
         return f'<Movies {self.name}>'
 
 
-db.create_all()
+# db.create_all()
 
 
 # endpoint
